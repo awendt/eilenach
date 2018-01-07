@@ -6,7 +6,8 @@ exports.handler = function(event, context) {
   var post_data = querystring.stringify({
     from: `Kontoüberwachung <mailgun@${process.env['MAILGUN_DOMAIN']}>`,
     to: process.env['MAIL_RECIPIENT'],
-    subject: JSON.parse(event.Records[0].Sns.Message).AlarmDescription
+    subject: JSON.parse(event.Records[0].Sns.Message).AlarmDescription,
+    text: 'siehe Betreff'
   });
 
   var options = {
