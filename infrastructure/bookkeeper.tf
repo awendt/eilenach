@@ -12,6 +12,10 @@ resource "aws_lambda_function" "bookkeeper" {
       PASSWORD = "${var.dkb_password}"
     }
   }
+
+  tags {
+    "awendt:project" = "eilenach"
+  }
 }
 
 resource "aws_cloudwatch_log_metric_filter" "lambda-metrics-balance-family" {
@@ -65,6 +69,10 @@ resource "aws_lambda_function" "bookkeeper-mailer" {
       MAILGUN_DOMAIN = "${var.mailgun_domain}"
       MAIL_RECIPIENT = "${var.mail_recipient}"
     }
+  }
+
+  tags {
+    "awendt:project" = "eilenach"
   }
 }
 
