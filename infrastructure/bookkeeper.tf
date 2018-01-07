@@ -47,10 +47,6 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_bookkeeper" {
   source_arn = "${aws_cloudwatch_event_rule.every_ten_minutes.arn}"
 }
 
-locals {
-  threshold = 150
-}
-
 resource "aws_sns_topic" "bookkeeper-updates" {
   name = "bookkeeper-updates"
 }
@@ -84,6 +80,10 @@ resource "aws_lambda_permission" "allow_sns_to_call_mailer" {
   function_name = "${aws_lambda_function.bookkeeper-mailer.function_name}"
   principal = "sns.amazonaws.com"
   source_arn = "${aws_sns_topic.bookkeeper-updates.arn}"
+}
+
+locals {
+  threshold = 500
 }
 
 resource "aws_cloudwatch_metric_alarm" "low-family-balance" {
