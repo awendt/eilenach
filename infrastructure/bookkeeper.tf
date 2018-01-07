@@ -93,8 +93,25 @@ resource "aws_cloudwatch_metric_alarm" "low-family-balance" {
   metric_name               = "account-balance-family"
   namespace                 = "Bookkeeper"
   period                    = "${10 * 60}"
+  # as long as terraform-providers/terraform-provider-aws#2384 is not fixed,
+  # the default value of 0 prevents us from using Average here
   statistic                 = "Maximum"
   threshold                 = "${local.threshold}"
   alarm_description         = "Auf dem Familienkonto sind weniger als ${local.threshold} EUR"
+  alarm_actions             = ["${aws_sns_topic.bookkeeper-updates.arn}"]
+}
+
+resource "aws_cloudwatch_metric_alarm" "no-family-balance" {
+  alarm_name                = "no-family-balance"
+  comparison_operator       = "LessThanThreshold"
+  evaluation_periods        = "3"
+  metric_name               = "account-balance-family"
+  namespace                 = "Bookkeeper"
+  period                    = "${10 * 60}"
+  # as long as terraform-providers/terraform-provider-aws#2384 is not fixed,
+  # the default value of 0 prevents us from using Average here
+  statistic                 = "Minimum"
+  threshold                 = 0
+  alarm_description         = "Das Familienkonto ist jetzt überzogen"
   alarm_actions             = ["${aws_sns_topic.bookkeeper-updates.arn}"]
 }
