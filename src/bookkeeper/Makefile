@@ -1,3 +1,5 @@
+.PHONY: deploy guard-%
+
 all: bookkeeper.zip
 
 tmp:
@@ -16,3 +18,13 @@ node_modules:
 bookkeeper.zip: node_modules tmp/phantomjs balance.js index.js
 	zip -9 -r bookkeeper.zip balance.js index.js package.json package-lock.json node_modules
 	zip -9 --junk-paths bookkeeper.zip tmp/phantomjs
+
+# inspired by https://stackoverflow.com/a/7367903/473467
+guard-%:
+	@ if [ "${${*}}" = "" ]; then \
+	    echo "Environment variable $* not set"; \
+	    exit 1; \
+	fi
+
+deploy: guard-AWS_PROFILE bookkeeper.zip
+	aws lambda update-function-code --function-name bookkeeper-mailer --zip-file fileb://bookkeeper.zip
