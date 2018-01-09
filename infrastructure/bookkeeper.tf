@@ -2,14 +2,16 @@ resource "aws_lambda_function" "bookkeeper" {
   filename         = "../src/bookkeeper/bookkeeper.zip"
   function_name    = "bookkeeper"
   role             = "arn:aws:iam::023397259013:role/executionrole"
-  handler          = "index.handler"
-  runtime          = "nodejs6.10"
-  timeout          = 30
+  handler          = "bookkeeper.lambda_handler"
+  runtime          = "python3.6"
+  timeout          = 10
 
   environment {
     variables = {
-      USERNAME = "${var.dkb_username}"
-      PASSWORD = "${var.dkb_password}"
+      BANKING_BLZ = "${var.banking_blz}"
+      BANKING_USERNAME = "${var.banking_username}"
+      BANKING_PIN = "${var.banking_pin}"
+      BANKING_ENDPOINT = "${var.banking_endpoint}"
     }
   }
 
