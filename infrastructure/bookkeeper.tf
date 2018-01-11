@@ -1,7 +1,21 @@
+resource "aws_iam_role" "iam_for_lambda" {
+  name = "iam-for-eilenach-lambdas"
+  description = "All Lambda functions for Eilenach assume this role"
+
+  assume_role_policy = "${file("iam-for-eilenach-lambdas.json")}"
+}
+
+resource "aws_iam_role_policy" "grant_cloudwatch_access" {
+  name = "grant-cloudwatch-access"
+  role = "${aws_iam_role.iam_for_lambda.id}"
+
+  policy = "${file("grant-cloudwatch-access.json")}"
+}
+
 resource "aws_lambda_function" "bookkeeper" {
   filename         = "../src/bookkeeper/bookkeeper.zip"
   function_name    = "bookkeeper"
-  role             = "arn:aws:iam::023397259013:role/executionrole"
+  role             = "${aws_iam_role.iam_for_lambda.arn}"
   handler          = "bookkeeper.lambda_handler"
   runtime          = "python3.6"
   timeout          = 10
@@ -60,7 +74,7 @@ resource "aws_sns_topic" "bookkeeper-updates" {
 resource "aws_lambda_function" "bookkeeper-mailer" {
   filename         = "../src/beacon/mailgun.zip"
   function_name    = "bookkeeper-mailer"
-  role             = "arn:aws:iam::023397259013:role/executionrole"
+  role             = "${aws_iam_role.iam_for_lambda.arn}"
   handler          = "mailgun.handler"
   runtime          = "nodejs6.10"
   timeout          = 5
