@@ -2,71 +2,73 @@
 
 > Eilenach is one of the seven [Warning beacons of Gondor](http://lotr.wikia.com/wiki/Warning_beacons_of_Gondor).
 
-## What this does
+This is a watcher for our family account balance.
 
-This is a watcher for our family account balance:
+<details>
+<summary>How does it work?</summary>
 
 1. [Checks the balance](src/bookkeeper/bookkeeper.py) of your bank account over [FinTS](https://en.wikipedia.org/wiki/FinTS)
 2. Reports the balance
 3. [Sends an e-mail](src/beacon/mailgun.js) when the balance is below threshold
 
-## What you need to run this
+</details>
+
+<details>
+<summary>What do I need to run this?</summary>
 
 - a German bank account with [one of these banks](https://github.com/raphaelm/python-fints#limitations) (so far only tested with DKB)
 - an AWS account (everything you need to build the infrastructure
   is [included in this project](infrastructure/bookkeeper.tf))
 - a [Mailgun account](https://www.mailgun.com/)
 
-**WARNING:** There's a _lot_ of assumptions here, and no tests!
+</details>
 
-## Building the project
+## Getting started
 
-I chose `make` to keep it all together. You'll need:
+### Prerequisites
+
+This is the software you need:
 
 1. GNU Make
 2. [Terraform](https://www.terraform.io/) 0.10.3 or newer
 3. A working [Python 3](https://www.python.org/) environment (including `pip`)
-4. `wget`
+4. [ZIP](http://www.info-zip.org/Zip.html)
 
----
+<details>
+<summary>How do I know I have everything installed?</summary>
 
-**NOTE:** If you're on OSX, and you have [brew](https://github.com/Homebrew/brew)
+Run the following, every line should have a check mark:
+
+```bash
+$ make check
+✔ pip3
+✔ terraform
+✔ zip
+```
+</details>
+
+<details>
+<summary>What's the recommended way to install the requirements on OSX?</summary>
+
+Assuming you have [brew](https://github.com/Homebrew/brew)
 installed (you should!), run this to install all required software:
 
-```bash
-$ brew bundle
 ```
+brew bundle
+```
+</details>
 
----
+### Building the project
 
-If you have all required software, run `make` in the root directory of this project.
-This will create the ZIP files but fail on the infrastructure part (see [here](#building-the-infrastructure) for details)
-
-### Building beacon
+Once you have all required software, in the root directory of this project, run:
 
 ```bash
-$ cd src/beacon
 $ make
 ```
 
-This is the part that sends an e-mail (by far the simplest component, it has no dependencies). It just needs to zip [`mailgun.js`](src/beacon/mailgun.js).
+This will create 2 ZIP files but fail on the infrastructure part (keep reading).
 
-### Building bookkeeper
-
-```bash
-$ cd src/bookkeeper
-$ make
-```
-
-This is [slightly more complicated](src/bookkeeper/Makefile).
-
-1. Installs dependencies
-2. Zips all of it
-
-Why Python? Because [python-fints](https://github.com/raphaelm/python-fints) is the only
-decent FinTS library out there that I could get running.
-
-### Building the infrastructure
+#### Building the infrastructure
 
 This requires some first-time setup.
 
@@ -88,7 +90,7 @@ This requires some first-time setup.
    ```
 3. It is recommended to set up a [named profile for your AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html)
    to avoid credential configuration in this project.
-4. Choose a [region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions) for your infrastructure and create a file `aws.tf`
+4. Choose a [region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions) for your infrastructure and create a file `aws.tf`:
    ```HCL
    provider "aws" {
      region = "eu-central-1" # your prefered AWS region
@@ -112,3 +114,7 @@ This requires some first-time setup.
 7. **(optional)** If you're up for a more permanent solution,
    consider switching to remote state, e.g. where your state file is stored in
    [S3](https://www.terraform.io/docs/backends/types/s3.html).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
