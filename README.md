@@ -23,7 +23,7 @@ with several German banks, but so far I've only verified this with DKB.
 I chose `make` to keep it all together. You'll need:
 
 1. GNU Make
-2. [Terraform](https://www.terraform.io/)
+2. [Terraform](https://www.terraform.io/) 0.10.3 or newer
 3. A working [Python 3](https://www.python.org/) environment (including `pip`)
 4. wget
 
