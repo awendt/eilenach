@@ -1,11 +1,4 @@
-.PHONY: all guard-%
+.PHONY: all
 
-all: guard-AWS_PROFILE
+all:
 	terraform apply
-
-# inspired by https://stackoverflow.com/a/7367903/473467
-guard-%:
-	@ if [ "${${*}}" = "" ]; then \
-	    echo "Environment variable $* not set"; \
-	    exit 1; \
-	fi
