@@ -26,15 +26,26 @@ I chose `make` to keep it all together. You'll need:
 1. GNU Make
 2. [Terraform](https://www.terraform.io/) 0.10.3 or newer
 3. A working [Python 3](https://www.python.org/) environment (including `pip`)
-4. wget
+4. `wget`
+
+If you have all required software, run `make` in the root directory of this project.
+This will create the ZIP files but fail on the infrastructure part (see [here](#building-the-infrastructure) for details)
 
 ### Building beacon
 
-This is the part that sends an e-mail (by far the simplest component, it has no dependencies).
+```bash
+$ cd src/beacon
+$ make
+```
 
-1. Zips [`mailgun.js`](src/beacon/mailgun.js) — done.
+This is the part that sends an e-mail (by far the simplest component, it has no dependencies). It just needs to zip [`mailgun.js`](src/beacon/mailgun.js).
 
 ### Building bookkeeper
+
+```bash
+$ cd src/bookkeeper
+$ make
+```
 
 This is [slightly more complicated](src/bookkeeper/Makefile).
 
