@@ -57,10 +57,47 @@ decent FinTS library out there that I could get running.
 
 ### Building the infrastructure
 
-This needs you to set up some configuration.
+This requires some first-time setup.
 
-1. Create a new file `terraform.tfvars` and populate all variables declared in [`variables.tf`](infrastructure/variables.tf) like this:
+1. [Initialize terraform](https://www.terraform.io/docs/commands/init.html) for this project to download dependencies:
+   ```bash
+   $ cd infrastructure
+   $ terraform init
    ```
-   variable = "value"
+2. Create a new file `terraform.tfvars` and populate all variables declared in [`variables.tf`](infrastructure/variables.tf) like this:
+   ```INI
+   banking_blz = "Your bank code"
+   banking_username = "The username you use for banking"
+   banking_pin = "The password you use for banking (not your card PIN!)"
+   banking_endpoint = "The PIN/TAN URL for your bank as found on http://www.hbci-zka.de/institute/institut_auswahl.htm"
+   shared_account_number = "The account number for which you'd like to monitor the balance"
+   mailgun_key = "You API Key for Mailgun, find it on your dashboard"
+   mailgun_domain = "The domain you set up (can be a sandbox domain)"
+   mail_recipient = "E-mail address you'd like to send notifications to"
    ```
-2. Run `make` with `AWS_PROFILE` set (see [AWS docs for named profiles](https://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html) for more info)
+3. It is recommended to set up a [named profile for your AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html)
+   to avoid credential configuration in this project.
+4. Choose a [region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions) for your infrastructure and create a file `aws.tf`
+   ```HCL
+   provider "aws" {
+     region = "eu-central-1" # your prefered AWS region
+     profile = "name of the AWS profile you created"
+   }
+   ```
+5. This should be enough to get a plan to add a number of resources:
+   ```bash
+   $ terraform plan
+   [long output]
+   Plan: [n] to add, 0 to change, 0 to destroy.
+   ```
+6. Build the infrastructure:
+   ```bash
+   $ make
+   ```
+   - Terraform will then create a [state file](https://www.terraform.io/docs/backends/state.html) (`terraform.tfstate`) in the project directory
+   - You can [destroy](https://www.terraform.io/intro/getting-started/destroy.html)
+   the infrastructure whenever you want
+   - You can also run `make` on the top-level directory now
+7. **(optional)** If you're up for a more permanent solution,
+   consider switching to remote state, e.g. where your state file is stored in
+   [S3](https://www.terraform.io/docs/backends/types/s3.html).
