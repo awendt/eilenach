@@ -13,6 +13,7 @@ resource "aws_iam_role_policy" "grant_cloudwatch_access" {
 }
 
 resource "aws_lambda_function" "bookkeeper" {
+  description      = "Queries and reports account balances"
   filename         = "../src/bookkeeper/bookkeeper.zip"
   function_name    = "bookkeeper"
   role             = "${aws_iam_role.iam_for_lambda.arn}"
@@ -72,6 +73,7 @@ resource "aws_sns_topic" "bookkeeper-updates" {
 }
 
 resource "aws_lambda_function" "bookkeeper-mailer" {
+  description      = "Sends e-mails if account balance is below certain thresholds"
   filename         = "../src/beacon/mailgun.zip"
   function_name    = "bookkeeper-mailer"
   role             = "${aws_iam_role.iam_for_lambda.arn}"
