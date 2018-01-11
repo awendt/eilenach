@@ -115,6 +115,44 @@ This requires some first-time setup.
    consider switching to remote state, e.g. where your state file is stored in
    [S3](https://www.terraform.io/docs/backends/types/s3.html).
 
+#### Building the other components
+
+The build process creates a number of AWS resources and 2 Lambda functions:
+
+<details>
+<summary>bookkeeper</summary>
+
+This part is written in Python because
+[python-fints](https://github.com/raphaelm/python-fints) is the only
+decent FinTS library out there that I could get running.
+
+Its job is to query the account balance and report it to stdout in JSON format
+where it's being picked up a metric filter and sent to CloudWatch Metrics.
+
+</details>
+
+<details>
+<summary>beacon</summary>
+
+This part is written in Javascript because it's my goto language for AWS Lambda.
+
+It sends an e-mail, and it is by far the simplest component (it has no dependencies).
+That's also why NodeJS is not listed anywhere as dependency. If you want to hack on it,
+you need a working Node environment though.
+
+I hadn't planned to write this part but Amazon SNS
+[doesn't yet support SMS in my prefered region](https://docs.aws.amazon.com/sns/latest/dg/sms_supported-countries.html), and Terraform doesn't support the `email` protocol for
+subscribing to SNS topics.
+
+The upside is that I can control the subject and the body of the e-mail being sent.
+
+</details>
+
+---
+
+The top-level `Makefile` will pick up any changes you make and re-package the code
+but you can run `make` in any of them by yourself.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
