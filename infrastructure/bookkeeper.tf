@@ -1,3 +1,7 @@
+###############################################
+# Lambda needs an execution role it can assume,
+# and it needs access to CloudWatch
+###############################################
 resource "aws_iam_role" "iam_for_lambda" {
   name = "iam-for-eilenach-lambdas"
   description = "All Lambda functions for Eilenach assume this role"
@@ -12,6 +16,9 @@ resource "aws_iam_role_policy" "grant_cloudwatch_access" {
   policy = "${file("grant-cloudwatch-access.json")}"
 }
 
+########################################################
+# Define the function that is being invoked via schedule
+########################################################
 resource "aws_lambda_function" "bookkeeper" {
   description      = "Queries and reports account balances"
   filename         = "../src/bookkeeper/bookkeeper.zip"
@@ -35,6 +42,10 @@ resource "aws_lambda_function" "bookkeeper" {
   }
 }
 
+########################################################################
+# The above function writes account balances as JSON to CloudWatch Logs,
+# so we need to turn one account balance into a CloudWatch Metric
+########################################################################
 resource "aws_cloudwatch_log_metric_filter" "lambda-metrics-balance-family" {
   name = "filter-account-balance-family"
 
@@ -48,12 +59,20 @@ resource "aws_cloudwatch_log_metric_filter" "lambda-metrics-balance-family" {
   }
 }
 
+###########################
+# Create a periodic trigger
+###########################
 resource "aws_cloudwatch_event_rule" "every_ten_minutes" {
   name = "every-ten-minutes"
   description = "Fires every ten minutes"
   schedule_expression = "rate(10 minutes)"
 }
 
+
+#############################################
+# Connect the trigger to the Lambda function,
+# and allow it to invoke the function
+#############################################
 resource "aws_cloudwatch_event_target" "read_balances_every_ten_minutes" {
   rule = "${aws_cloudwatch_event_rule.every_ten_minutes.name}"
   target_id = "bookkeeper"
@@ -68,10 +87,16 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_bookkeeper" {
   source_arn = "${aws_cloudwatch_event_rule.every_ten_minutes.arn}"
 }
 
+################################
+# Create an SNS topic for alarms
+################################
 resource "aws_sns_topic" "bookkeeper-updates" {
   name = "bookkeeper-updates"
 }
 
+########################################################
+# Define the notifier function that is invoked via alarm
+########################################################
 resource "aws_lambda_function" "bookkeeper-mailer" {
   description      = "Sends e-mails if account balance is below certain thresholds"
   filename         = "../src/beacon/mailgun.zip"
@@ -94,6 +119,10 @@ resource "aws_lambda_function" "bookkeeper-mailer" {
   }
 }
 
+#################################################
+# Connect the alarm topic to the Lambda function,
+# and allow it to invoke the function
+#################################################
 resource "aws_sns_topic_subscription" "bookkeeper-updates" {
   topic_arn = "${aws_sns_topic.bookkeeper-updates.arn}"
   protocol  = "lambda"
@@ -107,6 +136,10 @@ resource "aws_lambda_permission" "allow_sns_to_call_mailer" {
   principal = "sns.amazonaws.com"
   source_arn = "${aws_sns_topic.bookkeeper-updates.arn}"
 }
+
+########################################
+# Create alarms for the account balances
+########################################
 
 locals {
   threshold = 500
