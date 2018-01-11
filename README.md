@@ -28,6 +28,17 @@ I chose `make` to keep it all together. You'll need:
 3. A working [Python 3](https://www.python.org/) environment (including `pip`)
 4. `wget`
 
+---
+
+**NOTE:** If you're on OSX, and you have [brew](https://github.com/Homebrew/brew)
+installed (you should!), run this to install all required software:
+
+```bash
+$ brew bundle
+```
+
+---
+
 If you have all required software, run `make` in the root directory of this project.
 This will create the ZIP files but fail on the infrastructure part (see [here](#building-the-infrastructure) for details)
 
