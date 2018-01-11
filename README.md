@@ -10,13 +10,14 @@ This is a watcher for our family account balance:
 2. Reports the balance
 3. [Sends an e-mail](src/beacon/mailgun.js) when the balance is below threshold
 
-Almost all of this runs on AWS, the code necessary to build the infrastructure
-is [here](infrastructure/bookkeeper.tf).
+## What you need to run this
+
+- a German bank account with [one of these banks](https://github.com/raphaelm/python-fints#limitations) (so far only tested with DKB)
+- an AWS account (everything you need to build the infrastructure
+  is [included in this project](infrastructure/bookkeeper.tf))
+- a [Mailgun account](https://www.mailgun.com/)
 
 **WARNING:** There's a _lot_ of assumptions here, and no tests!
-
-This is [supposed to work](https://github.com/raphaelm/python-fints#limitations)
-with several German banks, but so far I've only verified this with DKB.
 
 ## Building the project
 
