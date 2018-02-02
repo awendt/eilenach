@@ -23,6 +23,26 @@ This is a watcher for our family account balance.
 
 </details>
 
+<details>
+<summary>Wait, did you say AWS? What are the operating costs for this?</summary>
+
+💰 The whole project fits into the Free Tier, so **operating costs are likely to be zero.**
+
+In case you already consumed all of your Free Tier,
+estimated operating costs per month are:
+
+| AWS Service          | Free Tier | This project | Best case | Worst case |
+|----------------------|-----------|--------------|----------:|-----------:|
+| Lambda (requests)    | 1M        | ~4,320       | $0     | $0.00 |
+| Lambda (duration)    | 3.2M secs | ~22,000 secs | $0     | $0.05 |
+| CloudWatch (alarms)  | 10        | 2            | $0     | $0.20 |
+| CloudWatch (metrics) | 10        | 1            | $0     | $0.30 |
+| SNS (publishes)      | 1M        | <4,320       | $0     | $0.01 |
+| SNS (HTTP deliveries)| 100,000   | <4,320       | $0     | $0.01 |
+| **Sum**     ||| **$0** | **$0.57** |
+
+</details>
+
 ## Getting started
 
 ### Prerequisites
