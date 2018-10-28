@@ -10,7 +10,7 @@ beacon:
 bookkeeper:
 	$(MAKE) -C src/bookkeeper
 
-check: check-pip3 check-terraform check-zip
+check: check-aws check-pip3 check-terraform check-zip
 
 RED=\033[0;31m
 GREEN=\033[0;32m

@@ -52,7 +52,8 @@ This is the software you need:
 1. GNU Make
 2. [Terraform](https://www.terraform.io/) 0.10.3 or newer
 3. A working [Python 3](https://www.python.org/) environment (including `pip`)
-4. [ZIP](http://www.info-zip.org/Zip.html)
+4. The [AWS command-line interface](https://aws.amazon.com/cli/)
+5. [ZIP](http://www.info-zip.org/Zip.html)
 
 <details>
 <summary>How do I know I have everything installed?</summary>
@@ -61,6 +62,7 @@ Run the following, every line should have a check mark:
 
 ```bash
 $ make check
+✔ aws
 ✔ pip3
 ✔ terraform
 ✔ zip
