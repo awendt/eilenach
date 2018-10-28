@@ -1,3 +1,3 @@
 brew "awscli"
-brew "python3"
+brew "python"
 brew "terraform"
