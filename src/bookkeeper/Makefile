@@ -18,4 +18,4 @@ guard-%:
 	fi
 
 deploy: guard-AWS_PROFILE bookkeeper.zip
-	aws lambda update-function-code --function-name bookkeeper-mailer --zip-file fileb://bookkeeper.zip
+	aws lambda update-function-code --function-name bookkeeper --zip-file fileb://bookkeeper.zip
