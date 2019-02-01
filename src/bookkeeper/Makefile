@@ -1,10 +1,11 @@
 .PHONY: clean deploy guard-%
 
 SITE_PACKAGES = env/lib/python3.7/site-packages
-ZIPFILE = $(abspath ./bookkeeper.zip)
+COMMIT_SHA = $(shell git rev-parse --short head)
+ZIPFILE = $(abspath ./bookkeeper-$(COMMIT_SHA).zip)
 DEFAULT_PACKAGES = __pycache__ easy_install pip pkg_resources setuptools
 
-bookkeeper.zip: install bookkeeper.py
+$(ZIPFILE): install bookkeeper.py
 	rm -f $(ZIPFILE)
 	zip -9 -r $(ZIPFILE) bookkeeper.py
 	cd $(SITE_PACKAGES) && zip -q -9 -r $(ZIPFILE) *
@@ -32,5 +33,7 @@ guard-%:
 	    exit 1; \
 	fi
 
-deploy: guard-AWS_PROFILE bookkeeper.zip
-	aws lambda update-function-code --function-name bookkeeper --zip-file fileb://bookkeeper.zip
+PACKAGE ?= $(ZIPFILE)
+
+deploy: guard-AWS_PROFILE $(PACKAGE)
+	aws lambda update-function-code --function-name bookkeeper --zip-file fileb://$(PACKAGE)
