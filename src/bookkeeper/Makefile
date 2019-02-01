@@ -15,6 +15,12 @@ install: env/bin/pip3 requirements-freeze.txt
 clean:
 	python3 -m venv env --clear
 
+upgrade:
+	python3 -m venv env --clear
+	env/bin/pip3 install -r requirements.txt
+	env/bin/pip3 freeze > requirements-freeze.txt
+	python3 -m venv env --clear
+
 env/bin/pip3:
 	python3 -m venv env
 
