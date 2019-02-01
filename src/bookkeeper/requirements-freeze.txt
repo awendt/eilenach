@@ -1,0 +1,7 @@
+certifi==2017.11.5
+chardet==3.0.4
+fints==0.2.1
+idna==2.6
+mt-940==4.10.0
+requests==2.18.4
+urllib3==1.22

@@ -1,14 +1,22 @@
-.PHONY: deploy guard-%
+.PHONY: clean deploy guard-%
 
-bookkeeper.zip: tmp/fints bookkeeper.py
-	zip -9 -r bookkeeper bookkeeper.py
-	cd tmp && zip -9 -r ../bookkeeper *
+SITE_PACKAGES = env/lib/python3.7/site-packages
+ZIPFILE = $(abspath ./bookkeeper.zip)
+DEFAULT_PACKAGES = __pycache__ easy_install pip pkg_resources setuptools
 
-tmp:
-	mkdir tmp
+bookkeeper.zip: install bookkeeper.py
+	zip -9 -r $(ZIPFILE) bookkeeper.py
+	cd $(SITE_PACKAGES) && zip -q -9 -r $(ZIPFILE) *
+	zip -q -9 -d $(ZIPFILE) $(addsuffix \*, $(DEFAULT_PACKAGES))
 
-tmp/fints: tmp requirements.txt
-	pip3 install -r requirements.txt -t tmp
+install: env/bin/pip3 requirements-freeze.txt
+	env/bin/pip3 install -r requirements-freeze.txt
+
+clean:
+	python3 -m venv env --clear
+
+env/bin/pip3:
+	python3 -m venv env
 
 # inspired by https://stackoverflow.com/a/7367903/473467
 guard-%:
