@@ -1,1 +1,1 @@
-fints
+fints==0.2.1
