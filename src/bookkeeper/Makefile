@@ -5,6 +5,8 @@ COMMIT_SHA = $(shell git rev-parse --short head)
 ZIPFILE = $(abspath ./bookkeeper-$(COMMIT_SHA).zip)
 DEFAULT_PACKAGES = __pycache__ easy_install pip pkg_resources setuptools
 
+build: $(ZIPFILE)
+
 $(ZIPFILE): install bookkeeper.py
 	rm -f $(ZIPFILE)
 	zip -9 -r $(ZIPFILE) bookkeeper.py
