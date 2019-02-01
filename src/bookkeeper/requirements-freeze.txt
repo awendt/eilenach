@@ -1,7 +1,8 @@
 certifi==2018.11.29
 chardet==3.0.4
-fints==0.3.0
+fints==1.0.1
 idna==2.8
 mt-940==4.13.0
 requests==2.21.0
+sepaxml==2.0.0
 urllib3==1.24.1
