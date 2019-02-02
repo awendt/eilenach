@@ -1,6 +1,7 @@
 .PHONY: clean deploy guard-%
 
 SITE_PACKAGES = env/lib/python3.7/site-packages
+FINTS_LIBRARY = $(SITE_PACKAGES)/fints
 COMMIT_SHA = $(shell git rev-parse --short head)
 ZIPFILE = $(abspath ./bookkeeper-$(COMMIT_SHA).zip)
 DEFAULT_PACKAGES = __pycache__ easy_install pip pkg_resources setuptools
@@ -8,13 +9,15 @@ DEFAULT_PACKAGES = __pycache__ easy_install pip pkg_resources setuptools
 bookkeeper.zip: $(ZIPFILE)
 	ln -si $(ZIPFILE) bookkeeper.zip
 
-$(ZIPFILE): install bookkeeper.py
+$(ZIPFILE): $(FINTS_LIBRARY) bookkeeper.py
 	rm -f $(ZIPFILE)
 	zip -9 -r $(ZIPFILE) bookkeeper.py
 	cd $(SITE_PACKAGES) && zip -q -9 -r $(ZIPFILE) *
 	zip -q -9 -d $(ZIPFILE) $(addsuffix \*, $(DEFAULT_PACKAGES))
 
-install: env/bin/pip3 requirements-freeze.txt
+install: $(FINTS_LIBRARY)
+
+$(FINTS_LIBRARY): env/bin/pip3 requirements-freeze.txt
 	env/bin/pip3 install -r requirements-freeze.txt
 
 clean:
