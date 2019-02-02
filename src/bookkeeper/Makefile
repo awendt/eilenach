@@ -6,6 +6,7 @@ ZIPFILE = $(abspath ./bookkeeper-$(COMMIT_SHA).zip)
 DEFAULT_PACKAGES = __pycache__ easy_install pip pkg_resources setuptools
 
 build: $(ZIPFILE)
+	ln -si $(ZIPFILE) bookkeeper.zip
 
 $(ZIPFILE): install bookkeeper.py
 	rm -f $(ZIPFILE)
