@@ -26,6 +26,7 @@ resource "aws_lambda_function" "bookkeeper" {
   role             = "${aws_iam_role.iam_for_lambda.arn}"
   handler          = "bookkeeper.lambda_handler"
   runtime          = "python3.7"
+  source_code_hash = "${filebase64sha256("../src/bookkeeper/bookkeeper.zip")}"
   timeout          = 10
 
   environment {

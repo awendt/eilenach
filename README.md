@@ -50,7 +50,7 @@ estimated operating costs per month are:
 This is the software you need:
 
 1. GNU Make
-2. [Terraform](https://www.terraform.io/) 0.10.3 or newer
+2. [Terraform](https://www.terraform.io/) 0.11.12 or newer
 3. A working [Python 3](https://www.python.org/) environment (including `pip`)
 4. The [AWS command-line interface](https://aws.amazon.com/cli/)
 5. [ZIP](http://www.info-zip.org/Zip.html)
