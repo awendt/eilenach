@@ -1,8 +1,8 @@
-certifi==2018.11.29
+certifi==2019.3.9
 chardet==3.0.4
 fints==1.0.1
 idna==2.8
-mt-940==4.13.0
-requests==2.21.0
+mt-940==4.15.0
+requests==2.22.0
 sepaxml==2.0.0
-urllib3==1.24.1
+urllib3==1.25.2
