@@ -70,7 +70,7 @@ $ make check
 </details>
 
 <details>
-<summary>What's the recommended way to install the requirements on OSX?</summary>
+<summary>What's the recommended way to install the requirements on macOS?</summary>
 
 Assuming you have [brew](https://github.com/Homebrew/brew)
 installed (you should!), run this to install all required software:
