@@ -5,7 +5,7 @@
 This is a watcher for our family account balance.
 
 <details>
-<summary>How does it work?</summary>
+<summary>🧐 How does it work?</summary>
 
 1. [Checks the balance](src/bookkeeper/bookkeeper.py) of your bank account over [FinTS](https://en.wikipedia.org/wiki/FinTS)
 2. Reports the balance
@@ -14,7 +14,7 @@ This is a watcher for our family account balance.
 </details>
 
 <details>
-<summary>What do I need to run this?</summary>
+<summary>🚀 What do I need to run this?</summary>
 
 - a German bank account with [one of these banks](https://github.com/raphaelm/python-fints#limitations) (so far only tested with DKB)
 - an AWS account (everything you need to build the infrastructure
@@ -24,9 +24,9 @@ This is a watcher for our family account balance.
 </details>
 
 <details>
-<summary>Wait, did you say AWS? What are the operating costs for this?</summary>
+<summary>💰 Wait, did you say AWS? What are the operating costs for this?</summary>
 
-💰 The whole project fits into the Free Tier, so **operating costs are likely to be zero.**
+The whole project fits into the Free Tier, so **operating costs are likely to be zero.**
 
 In case you already consumed all of your Free Tier,
 estimated operating costs per month are:
