@@ -45,7 +45,7 @@ estimated operating costs per month are:
 
 ## Getting started
 
-### Prerequisites
+### 🧰 Prerequisites
 
 This is the software you need:
 
@@ -80,7 +80,7 @@ brew bundle
 ```
 </details>
 
-### Building the project
+### 🏗️ Building the project
 
 Once you have all required software, in the root directory of this project, run:
 
