@@ -103,7 +103,7 @@ resource "aws_lambda_function" "bookkeeper-mailer" {
   function_name = "bookkeeper-mailer"
   role          = aws_iam_role.iam_for_lambda.arn
   handler       = "mailgun.handler"
-  runtime       = "nodejs8.10"
+  runtime       = "nodejs10.x"
   timeout       = 5
 
   environment {
