@@ -117,8 +117,6 @@ This requires some first-time setup.
    provider "aws" {
      region = "eu-central-1" # your prefered AWS region
      profile = "name of the AWS profile you created"
-
-     version = "~> 2.30.0"
    }
    ```
 5. This should be enough to get a plan to add a number of resources:
