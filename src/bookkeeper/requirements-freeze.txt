@@ -5,4 +5,4 @@ idna==2.8
 mt-940==4.15.0
 requests==2.22.0
 sepaxml==2.0.0
-urllib3==1.25.2
+urllib3==1.25.8
